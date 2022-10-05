@@ -42,9 +42,7 @@ public:
             }
         }
         
-        /*for(int i=0 ; i<30 ; ++i) cout<<ans[i];
-        cout<<endl;*/
-        
+       
         for(int i=0 ; i<30 ; ++i){
             if(cnt_set_bits_num2 == 0) break;
             if(ans[i] == 0){
@@ -53,10 +51,7 @@ public:
             }
         }
         
-        
-        for(int i=0 ; i<30 ; ++i) cout<<ans[i];
-        cout<<endl;
-        
+    
         long long res = 0;
         for(int i=0 ; i<32 ; ++i){
             if(ans[i] == 1) res += binpow(2,i);   
