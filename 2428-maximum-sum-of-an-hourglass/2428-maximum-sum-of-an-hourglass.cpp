@@ -13,17 +13,12 @@ public:
             }
         }
         
-        /*for(int i=0 ; i<n ; ++i){
-            for(int j=0 ; j<m ; ++j) cout<<col[i][j]<<" ";
-            cout<<endl;
-        }*/
-        
+       
         int mx = 0;       
         for(int i=0 ; i<=n-3 ; ++i){
             for(int j=0 ; j<=m-3 ; ++j){
                 int f = col[i][j+2] + grid[i+1][j+1] + col[i+2][j+2];
                 if(j-1 >= 0) f -= col[i][j-1] + col[i+2][j-1];
-                //cout<<i<<" "<<j<<" "<<f<<endl;
                 mx = max(mx,f);
             }
         }
