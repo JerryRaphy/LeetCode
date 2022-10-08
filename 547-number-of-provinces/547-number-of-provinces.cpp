@@ -17,6 +17,8 @@ public:
            parent[i] = i;
            sz[i] = 1;
        }
+        
+        int groups = n;
        
        for(int i=0 ; i<n ; ++i){
           for(int j=0 ; j<n ; ++j){
@@ -27,12 +29,9 @@ public:
               if(sz[a] < sz[b]) swap(a,b);
               parent[b] = a;
               sz[a] += sz[b];
+              groups--;
           } 
        } 
-       
-       set<int> st;
-       for(auto it = parent.begin() ; it != parent.end() ; it++) st.insert(it->second);
-       return st.size(); 
-        
+       return groups;
     }
 };
