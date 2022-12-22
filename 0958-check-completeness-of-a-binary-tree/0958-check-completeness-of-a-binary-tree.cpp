@@ -44,9 +44,7 @@ public:
         if(!uneven) return true;
         
         if(!levelstartingleaf) return false;
-        
-        cout<<"in here"<<" "<<q.size()<<endl;
-        
+    
         int temp = 0;
         while(!q.empty()){
             TreeNode *node = q.front().first;
