@@ -1,12 +1,12 @@
+// An insane optimization in solution tab!
+
 class Solution {
 public:
     
     
-    void bfs(int st, int en, int n, int m, vector<vector<int>> &grid, vector<vector<pair<int,int>>> &dist){
+    void bfs(int st, int en, int n, int m, vector<vector<int>> &grid, vector<vector<pair<int,int>>> &dist, int temp){
         
-        vector<vector<bool>> vis(n,vector<bool>(m,false));
         vector<pair<int,int>> moves = {{0,1},{0,-1},{-1,0},{1,0}};
-        
         queue<pair<pair<int,int>,int>> q;
         q.push({{st,en},0});
         
@@ -17,7 +17,7 @@ public:
             q.pop();
             
             // for an empty cell 
-            if(grid[x][y] == 0){
+            if(grid[x][y] == temp - 1){
                 dist[x][y].first  += 1;
                 dist[x][y].second += dis;
             }
@@ -27,8 +27,8 @@ public:
                 int new_y = y + moves[i].second;
                 
                 if(new_x >= 0 && new_x < n && new_y >= 0 && new_y < m){
-                    if(grid[new_x][new_y] == 1 || grid[new_x][new_y] == 2 || (grid[new_x][new_y] == 0 && vis[new_x][new_y])) continue;
-                    vis[new_x][new_y] = true;
+                    if(grid[new_x][new_y] != temp) continue;
+                    grid[new_x][new_y] = temp - 1;
                     q.push({{new_x,new_y},dis+1});
                 }
             }
@@ -45,15 +45,18 @@ public:
         
         int number_of_houses = 0;
         int mindist = INT_MAX;
+        int temp = 0;
         
         for(int i=0 ; i<n ; ++i){
             for(int j=0 ; j<m ; ++j){
                 
-                // if we have found a building begin bfs now
+                // if we have found a house begin bfs now
                 if(grid[i][j] == 1){
                     ++number_of_houses;
-                    bfs(i,j,n,m,grid,dist);
+                    bfs(i,j,n,m,grid,dist,temp);
+                    --temp;
                 }
+    
             }
         }
         
