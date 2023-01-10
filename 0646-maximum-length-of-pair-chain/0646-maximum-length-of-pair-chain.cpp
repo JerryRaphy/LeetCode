@@ -11,8 +11,6 @@ public:
         int n = pairs.size();
         sort(pairs.begin(),pairs.end(),comp);
         
-        //for(int i=0 ; i<n ; ++i) cout<<pairs[i][0]<<" "<<pairs[i][1]<<endl;
-            
         vector<int> dp(n,1);
         
         for(int i=1 ; i<n ; ++i){
