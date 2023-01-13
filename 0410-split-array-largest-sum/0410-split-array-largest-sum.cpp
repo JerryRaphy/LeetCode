@@ -1,31 +1,50 @@
+// memoization MCM but we can also do a binary search
+
 class Solution {
 public:
     
-    int solve(int idx, int n, int k, vector<int> &nums, vector<vector<int>> &dp){
-                
-        int curr = INT_MAX;
-        int curr_sum = 0;
-        int global_min = INT_MAX;
+    int ispossible(int mid, int k, vector<int> &nums){
+        int splits = 0;
+        int sum = 0;
+        int n = nums.size();
         
-        if(k == 1){
-            for(int i=idx ; i<n ; ++i) curr_sum += nums[i];
-            return dp[idx][k] = curr_sum;
+        for(int i=0 ; i<n ; ++i){
+            sum += nums[i];
+            if(sum > mid){
+                ++splits;
+                sum = nums[i];
+            }
         }
         
-        if(dp[idx][k] != -1) return dp[idx][k];
-        
-        for(int i=idx ; i<=n-k ; ++i){
-            curr_sum += nums[i];
-            curr = max(curr_sum,solve(i+1,n,k-1,nums,dp));
-            global_min = min(global_min,curr);
-        }
-        
-        return dp[idx][k] = global_min;
+        if(splits + 1 <= k) return true;
+        return false;
     }
     
     int splitArray(vector<int>& nums, int k) {
         int n = nums.size();
-        vector<vector<int>> dp(n+1,vector<int>(k+1,-1));
-        return solve(0,n,k,nums,dp);
+        
+        int l = INT_MIN;
+        int r = 0;
+        
+        for(int i=0 ; i<n ; ++i){
+            r += nums[i];
+            l = max(l,nums[i]);
+        }
+        
+        
+        int ans = INT_MIN;
+        while(l <= r){
+            
+            int mid = l + (r-l) / 2;  
+            if(ispossible(mid,k,nums)){
+                ans = mid;
+                r = mid - 1;
+            }
+            else{ 
+                l = mid + 1;
+            }
+        }
+        
+        return ans;
     }
 };
