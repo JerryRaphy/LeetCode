@@ -27,11 +27,7 @@ public:
             st.push(i);   
         }
         
-        /*for(int i=0 ; i<n ; ++i) cout<<prevsmallerelement[i]<<" ";
-        cout<<endl;
-        for(int i=0 ; i<n ; ++i) cout<<nextsmallerelement[i]<<" ";
-        cout<<endl;*/
-    
+      
         long long int res = 0;
         for(int i=0 ; i<n ; ++i){
             res += (prevsmallerelement[i] + 1) * (nextsmallerelement[i] + 1) * v[i];
