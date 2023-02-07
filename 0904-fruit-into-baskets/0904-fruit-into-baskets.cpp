@@ -3,39 +3,34 @@ public:
     int totalFruit(vector<int>& fruits) {
         
         int n = fruits.size();
-        int type_1 = -1;
-        int type_2 = -1;
-        int pos = 0;
+        int total = 0;
         
-        vector<int> lastencountered(n);
-        lastencountered[0] = 0;
         
-        for(int i=1 ; i<n ; ++i){
-            if(fruits[i] == fruits[i-1]) lastencountered[i] = lastencountered[i-1];
-            else lastencountered[i] = i;
+        int l = 0;
+        int r = 0;
+        
+        vector<int> curr(n,0);
+        for(int i=0 ; i<n ; ++i){
+            if(i == 0) continue;
+            else if(fruits[i] == fruits[i-1]) curr[i] = curr[i-1] + 1;
         }
-        int i = 0;
-        int len = 0;
         
-        while(i < n){
-            
-            if(fruits[i] == type_1 || fruits[i] == type_2) {
-                ++i;
-                continue;
+        set<int> st;
+        
+        while(r < n){
+            if(st.size() < 2) st.insert(fruits[r]);
+            else if(st.find(fruits[r]) != st.end()) r += 0;
+            else{
+              total = max(total,r - l);
+              int new_l_pos = (r - 1) - curr[r - 1];
+              st.erase(fruits[new_l_pos - 1]);
+              st.insert(fruits[r]);
+              l = new_l_pos;  
             }
-            
-            if(type_1 == -1) type_1 = fruits[i];
-            else if(type_2 == -1) type_2 = fruits[i];
-            else if(fruits[i] != type_1 && fruits[i] != type_2){
-                len = max(len,i-pos);
-                pos = lastencountered[i-1];
-                type_1 = fruits[i-1];
-                type_2 = fruits[i];
-            }
-            ++i;
+            r += 1;
         }
-       
-        len = max(len,i - pos);
-        return len; 
+        
+        total = max(total,r - l);
+        return total;
     }
 };
