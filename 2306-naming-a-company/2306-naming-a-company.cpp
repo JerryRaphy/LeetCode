@@ -26,11 +26,11 @@ public:
                     if(mp[ch2].find(word) != mp[ch2].end()) mutual += 1;
                 }
                 
-                names += 2LL * (mp[ch1].size() - mutual) * (mp[ch2].size() - mutual);
+                names += (mp[ch1].size() - mutual) * (mp[ch2].size() - mutual);
             }
             
         }
         
-        return names;
+        return names * 2;
     }
 };
