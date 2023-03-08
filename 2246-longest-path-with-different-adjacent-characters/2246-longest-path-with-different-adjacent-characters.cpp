@@ -7,7 +7,7 @@ public:
         int max_len_1 = 0;
         int max_len_2 = 0;
         
-        for(int child : graph[node]){
+        for(auto child : graph[node]){
             
             int curr_len = dfs(child,graph,s,max_path);
             if(s[node] == s[child]) continue;
