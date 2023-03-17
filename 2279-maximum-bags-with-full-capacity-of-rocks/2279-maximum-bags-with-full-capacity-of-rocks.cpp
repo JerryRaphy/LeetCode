@@ -13,9 +13,7 @@ public:
         int res = 0;
         
         for(int i=0 ; i<n ; ++i){
-            
-            if(v[i] == 0) res += 1;
-            else if(add >= v[i]){
+            if(add >= v[i]){
                 add -= v[i];
                 res += 1;
             }
