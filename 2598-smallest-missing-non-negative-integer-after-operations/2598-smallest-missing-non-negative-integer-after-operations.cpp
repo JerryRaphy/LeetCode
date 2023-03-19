@@ -10,11 +10,7 @@ public:
             int mod = (nums[i] % value + value) % value;
             mp[mod] += 1;
         }
-        
-        for(auto it : mp){
-            cout<<it.first<<" "<<it.second<<endl;
-        }
-        
+       
         for(int i=0 ; i<=1000001 ; ++i){
             int mod = i % value;
             if(mp.find(mod) == mp.end()) return i;
