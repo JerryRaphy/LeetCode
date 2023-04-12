@@ -14,8 +14,6 @@ public:
             if(i < n && apples[i] > 0 && days[i] > 0) pq.push({i + days[i] - 1,apples[i]});
             while(!pq.empty() && pq.top().first < day) pq.pop();
             
-            // cout<<pq.top().first<<" "<<pq.top().second<<endl;
-            
             if(!pq.empty()){
                 int curr_day = pq.top().first;
                 int curr_app = pq.top().second;
