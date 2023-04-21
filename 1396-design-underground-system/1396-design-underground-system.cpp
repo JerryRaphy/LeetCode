@@ -2,7 +2,7 @@ class UndergroundSystem {
 public:
     
     map<int,pair<string,int>> checkin;
-    map<pair<string,string>,vector<int>> getavgs;
+    map<pair<string,string>,pair<int,int>> getavgs;
     
     UndergroundSystem() {
         checkin.clear();
@@ -18,18 +18,21 @@ public:
         int departure_time = checkin[id].second;
         
         int total_time = t - departure_time;
-        getavgs[{departure_station,stationName}].push_back(total_time);
+        
+        if(getavgs.find({departure_station,stationName}) == getavgs.end()){
+            getavgs[{departure_station,stationName}] = {total_time,1};
+            return;
+        }
+        
+        getavgs[{departure_station,stationName}].first += total_time;
+        getavgs[{departure_station,stationName}].second += 1;
+        
     }
     
     double getAverageTime(string startStation, string endStation) {
         
-        pair<string,string> p = {startStation,endStation};
-        vector<int> v = getavgs[p];
-        int n = v.size();
-        int s = 0;
-        
-        for(int i=0 ; i<n ; ++i) s += v[i];
-        return double(s / (n * 1.0));
+        pair<int,int> p = getavgs[{startStation,endStation}];
+        return double(p.first / (p.second * 1.0));
     }
 };
 
