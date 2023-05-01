@@ -12,7 +12,6 @@ public:
             int pos = mp[op[0]];
             res[pos] = op[1];
             mp[op[1]] = pos;
-            mp.erase(op[0]);
         }
         
         return res;
