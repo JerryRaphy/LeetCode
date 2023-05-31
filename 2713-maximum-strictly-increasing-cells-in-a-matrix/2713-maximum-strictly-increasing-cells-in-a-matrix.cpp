@@ -20,8 +20,7 @@ public:
         sort(v.rbegin(),v.rend());
         int sz = n * m;
         
-        
-        // for(int i=0 ; i<sz ; ++i) cout<<v[i][0]<<" "<<v[i][1]<<" "<<v[i][2]<<endl;
+    
         
         int i = 0;
         while(i < sz){
@@ -45,7 +44,6 @@ public:
                 col[c] = max(col[c],grid[r][c]);
             }
         
-            
             i = j;
         }
         
