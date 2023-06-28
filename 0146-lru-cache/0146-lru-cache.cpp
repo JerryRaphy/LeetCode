@@ -34,15 +34,18 @@ public:
         if(!mp.count(key)) return -1;
 
         Node *curr = mp[key];
-        curr->left->right = curr->right;
-        curr->right->left = curr->left;
-
-        bringnodeforward(curr);
+        remove(curr);
+        insert(curr);
         return curr->val;
     }
     
+    void remove(Node *curr){
+        curr->right->left = curr->left;
+        curr->left->right = curr->right;
+    }
     
-    void bringnodeforward(Node *curr) {
+    
+    void insert(Node *curr) {
         curr->right = head->right;
         curr->left  = head;
 
@@ -55,25 +58,20 @@ public:
         if(mp.count(key)){
             Node *curr = mp[key];
             curr->val = value;
-
-            curr->left->right = curr->right;
-            curr->right->left = curr->left;
-
-            bringnodeforward(curr);
+    
+            remove(curr);
+            insert(curr);
         }
         else{
             if(cap == 0){
-                // we will remove the last Node
-                Node *temp = tail->left;
-                temp->left->right = tail;
-                tail->left = temp->left;
-                mp.erase(temp->key);
+                mp.erase(tail->left->key);
+                remove(tail->left);
             }
             else cap -= 1;
 
             Node *curr = new Node(key,value);
             mp[key] = curr;
-            bringnodeforward(curr);  
+            insert(curr);  
         }
         return;
     }
