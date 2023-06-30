@@ -1,42 +1,65 @@
 class Solution {
-public:
+ public:
+  vector<vector<int>> dp;
+  vector<int> res;
     
-    int total = 0;
-    vector<int> ans;
-    
-    
-    void solve(int idx, int bobarrows, vector<int> &arrows, vector<int> &res, int curr_total){
-        
-        if(idx == -1 || bobarrows <= 0){
-            
-            if(curr_total > total){
-                total = curr_total;
-                
-                if(bobarrows > 0) res[0] += bobarrows;
-                ans = res;
-                res[0] = 0;
-            }
-            
-            return;
-        }
-        
-        
-        if(bobarrows > arrows[idx]){
-            res[idx] = arrows[idx] + 1;
-            solve(idx-1, bobarrows - res[idx], arrows, res, curr_total + idx);
-            res[idx] = 0;
-        }
-        
-        solve(idx-1,bobarrows,arrows,res,curr_total); 
-        return;
+  int recur(int cap, vector<int>& aliceArrows, int ind) {
+        // base case when bob firing capacity is zero or index becomes zero
+        if (ind == 0 || cap == 0) return 0;
+        int put = 0;
 
-    }
-    
-    vector<int> maximumBobPoints(int bobarrows, vector<int>& arrows) {
+        // if element already in DP
+        if (dp[ind][cap] != -1) {
+          return dp[ind][cap];
+        }
+
+        if (cap > aliceArrows[ind - 1]) {
+          put =
+              ind - 1 + recur(cap - aliceArrows[ind - 1] - 1, aliceArrows, ind - 1);
+        }
+        int nput = recur(cap, aliceArrows, ind - 1);
+
+        // if element not in DP then DP[index][capacity] = max(firing At index i,
+        // not filing at index i); also if firing then bob will fire
+        // aliceArrows[index]+1 to win that location and maximize profit
+        return dp[ind][cap] = max(put, nput);
+  }
+
+  vector<int> maximumBobPoints(int numArrows, vector<int>& aliceArrows) {
+        int bobTotalArrow = numArrows;
+        // res to store result, dp will be size 12*bobTotalArrow
+        res.clear();
+        res.resize(12, 0);
+
+        dp.clear();
+        dp.resize(13, vector<int>(bobTotalArrow + 1, -1));
+
+        recur(bobTotalArrow, aliceArrows, 12);
+      
         
-        int n = arrows.size();
-        vector<int> res(12,0);
-        solve(11,bobarrows,arrows,res,0);
-        return ans;
-    }
+     
+      
+        
+        // computing result array from DP result
+        int result = dp[12][bobTotalArrow];
+        int total = 0;
+        for (int i = 12, j = bobTotalArrow; i > 0 && result > 0; i--) {
+          if(j == 0) break;
+          if (result == dp[i - 1][j])
+            continue;
+          else {
+            // This item is included.
+            res[i - 1] = aliceArrows[i - 1] + 1;
+            result -= (i - 1);
+            j -= res[i - 1];
+            total += res[i - 1];
+          }
+        }
+        if (total < bobTotalArrow) {
+          res[0] = bobTotalArrow - total;
+        }
+        
+        
+        return res;
+  }
 };
