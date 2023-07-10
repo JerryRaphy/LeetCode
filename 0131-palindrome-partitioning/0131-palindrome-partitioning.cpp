@@ -1,7 +1,7 @@
 class Solution {
 public:
     
-    
+    /*
     bool ispalin(string &substring){
         int l = 0;
         int r = substring.length() - 1;
@@ -14,9 +14,10 @@ public:
         
         return true;
     }
+    */
     
    
-    void solve(int idx, vector<string> &curr, string &s, vector<vector<string>> &res){
+    void solve(int idx, vector<string> &curr, string &s, vector<vector<string>> &res, vector<vector<bool>> &dp){
         if(idx == s.length()) {
             res.push_back(curr);
             return;
@@ -26,9 +27,10 @@ public:
         
         for(int i=idx ; i<s.length() ; ++i){
             substring.push_back(s[i]);
-            if(ispalin(substring)){
+            if(s[idx] == s[i] && (i - idx <= 2 || dp[idx+1][i-1])){
+                dp[idx][i] = true; 
                 curr.push_back(substring);
-                solve(i+1,curr,s,res);
+                solve(i+1,curr,s,res,dp);
                 curr.pop_back();
             }
         }
@@ -41,7 +43,8 @@ public:
         int n = s.length();
         vector<vector<string>> res;
         vector<string> curr;
-        solve(0,curr,s,res);
+        vector<vector<bool>> dp(n,vector<bool>(n,false));
+        solve(0,curr,s,res,dp);
         return res;
     }
 };
