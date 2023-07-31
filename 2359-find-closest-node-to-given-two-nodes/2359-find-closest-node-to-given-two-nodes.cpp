@@ -4,7 +4,7 @@ public:
          
         int n = edges.size();
         
-        vector<int> dist_from_node_1(n,INT_MAX);
+        vector<int> dist_from_node_1(n,n);
         dist_from_node_1[node1] = 0;
         
         int node = node1;
@@ -19,7 +19,7 @@ public:
         }
         
         
-        vector<int> dist_from_node_2(n,INT_MAX);
+        vector<int> dist_from_node_2(n,n);
         dist_from_node_2[node2] = 0;
         
         node = node2;
@@ -41,7 +41,7 @@ public:
         cout<<endl;
         */
         
-        int dist = INT_MAX;
+        int dist = n;
         int res = -1;
         
         for(int i=0 ; i<n ; ++i){
