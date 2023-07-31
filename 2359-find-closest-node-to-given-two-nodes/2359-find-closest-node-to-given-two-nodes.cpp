@@ -1,73 +1,64 @@
 class Solution {
 public:
     int closestMeetingNode(vector<int>& edges, int node1, int node2) {
-        
+         
         int n = edges.size();
-        int res = INT_MAX;
-        int ans = -1;
         
-        map<int,int> distfromnode1;
-        queue<pair<int,int>> q;
+        vector<int> dist_from_node_1(n,INT_MAX);
+        dist_from_node_1[node1] = 0;
         
-        vector<bool> visited(n+1,false);
-    
-        distfromnode1[node1] = 0;
-        q.push({node1,0});
-        visited[node1] = true;
+        int node = node1;
         
-        
-        while(!q.empty()){
-            
-            int node = q.front().first;
-            int dist = q.front().second;
-            q.pop();
-            
+        while(true){
             int child = edges[node];
-            if(child == -1 || visited[child]) continue;
+            if(child == -1) break;
+            if(dist_from_node_1[child] < dist_from_node_1[node] + 1) break;
             
-            visited[child] = true;
-            distfromnode1[child] = dist + 1;
-            q.push({child,dist+1});
-            
+            dist_from_node_1[child] = dist_from_node_1[node] + 1;
+            node = child;
         }
-                
-        visited.clear();
-        visited.resize(n,false);
-            
-        while(!q.empty()) q.pop();
         
-        q.push({node2,0});
-        visited[node2] = true;
-    
         
-
-        while(!q.empty()){
-       
-            int node = q.front().first;
-            int dist = q.front().second;
-            q.pop();
+        vector<int> dist_from_node_2(n,INT_MAX);
+        dist_from_node_2[node2] = 0;
+        
+        node = node2;
+        
+        while(true){
+            int child = edges[node];
+            if(child == -1) break;
+            if(dist_from_node_2[child] < dist_from_node_2[node] + 1) break;
+        
             
-                        
-            if(distfromnode1.find(node) != distfromnode1.end()){
-                int curr_res = max(distfromnode1[node],dist);
-                if(curr_res < res){
-                    res = curr_res;
-                    ans = node;
-                }
-                else if(curr_res == res){
-                    ans = min(ans,node);
+            dist_from_node_2[child] = 1 + dist_from_node_2[node];
+            node = child;
+        }
+        
+        /*
+        for(int i=0 ; i<n ; ++i) cout<<dist_from_node_1[i]<<" ";
+        cout<<endl;
+        for(int i=0 ; i<n ; ++i) cout<<dist_from_node_2[i]<<" ";
+        cout<<endl;
+        */
+        
+        int dist = INT_MAX;
+        int res = -1;
+        
+        for(int i=0 ; i<n ; ++i){
+            
+            int d1 = dist_from_node_1[i];
+            int d2 = dist_from_node_2[i];
+            
+            if(d1 != INT_MAX && d2 != INT_MAX){
+                if(max(d1,d2) < dist){
+                    dist = max(d1,d2);
+                    res = i;
                 }
             }
             
-            int child = edges[node];
-            
-            if(child == -1 || visited[child]) continue;
-            visited[child] = true;
-            q.push({child,dist+1});
-            
         }
     
-        return ans;
+        return res;
         
     }
 };
