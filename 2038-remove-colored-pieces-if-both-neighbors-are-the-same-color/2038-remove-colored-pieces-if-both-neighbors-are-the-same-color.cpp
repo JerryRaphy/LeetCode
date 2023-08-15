@@ -1,28 +1,41 @@
 class Solution {
 public:
     bool winnerOfGame(string colors) {
-            
-        int n = colors.length();
         
-        int cnt_A = 0;
-        int cnt_B = 0;
         
-        int curr_cnt = 1;
-        for(int i=1 ; i<n ; ++i){
-            if(colors[i] == colors[i - 1]){
-                curr_cnt += 1;
-            }
+        int n = colors.size();
+        
+        int l = 0;
+        int r = 0;
+        
+        int A = 0;
+        int B = 0;
+        
+        while(r < n){
+            if(colors[r] == colors[l]) r += 1;
             else{
-                if(colors[i - 1] == 'A') cnt_A += max(0,curr_cnt - 2);
-                else cnt_B += max(0,curr_cnt - 2);
-                curr_cnt = 1;
+                int len = r - l;
+                if(len >= 3) len -= 2;
+                else{
+                    l = r;
+                    continue;
+                }
+                if(colors[l] == 'A') A += len;
+                else B += len;
+                l = r;
             }
         }
+        
+        int len = r - l;
+        if(len  >= 3){
+            len -= 2;
+            if(colors[l] == 'A') A += len;
+            else B += len;
+        }
     
-        if(colors[n - 1] == 'A') cnt_A += max(0,curr_cnt - 2);
-        else cnt_B += max(0,curr_cnt - 2);  
-    
-        return cnt_A > cnt_B ? true : false;
+            
+        if(B >= A) return false;
+        return true;
         
     }
 };
