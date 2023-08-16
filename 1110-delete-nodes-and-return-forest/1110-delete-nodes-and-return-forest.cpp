@@ -12,32 +12,32 @@
 class Solution {
 public:
     
-    
-    vector<TreeNode*> res;
+    bool solve(TreeNode *node, set<int> &st, vector<TreeNode*> &res){
+        // if(node == NULL) return true;
+        bool a = true;
+        bool b = true;
+        if(node->left)  a = solve(node->left,st,res);
+        if(node->right) b = solve(node->right,st,res);
         
-    TreeNode* solve(TreeNode *node, unordered_set<int> &st){
-        if(node == NULL) return NULL;
+        if(!a && node->left)  node->left = NULL;
+        if(!b && node->right) node->right = NULL;
         
-        node->left  = solve(node->left,st);
-        node->right = solve(node->right,st);
-        
-        if(st.find(node->val) != st.end()){
-            if(node->left)  res.push_back(node->left);
-            if(node->right) res.push_back(node->right);
-            return NULL;
+        if(st.count(node->val)){
+           if(node->left)  res.push_back(node->left);
+           if(node->right) res.push_back(node->right); 
+           return false; 
         }
-        
-        return node;
+    
+        return true;
     }
-
+    
     vector<TreeNode*> delNodes(TreeNode* root, vector<int>& to_delete) {
-        
-        unordered_set<int> st;
+        set<int> st;
         for(auto num : to_delete) st.insert(num);
-            
-        TreeNode* f = solve(root,st);
-        if(f) res.push_back(root);
         
+        vector<TreeNode*> res;
+        if(solve(root,st,res)) res.push_back(root);
+
         return res;
     }
 };
