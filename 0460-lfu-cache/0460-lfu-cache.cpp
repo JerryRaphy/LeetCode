@@ -66,7 +66,7 @@ class LFUCache {
     void changefrequencylist(Node *node){
         
         //erase it from the map
-        keynode.erase(node->key);
+        //keynode.erase(node->key);
         
         //remove from the corresponding dll
         NodeList *currentlist = freqlist[node->cnt];
@@ -90,7 +90,7 @@ class LFUCache {
         newlist->addtofront(node);
             
         // update the keynode map as well
-        keynode[node->key] = node; 
+        // keynode[node->key] = node; 
         
     }
     
