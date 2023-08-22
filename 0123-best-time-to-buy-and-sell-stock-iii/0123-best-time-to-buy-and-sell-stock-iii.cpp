@@ -27,8 +27,18 @@ public:
         
         int n = prices.size();
         int buy = 0;
+        int transactions = 2;
         
-        vector<vector<vector<int>>> dp(n+1,vector<vector<int>>(2,vector<int>(3,-1)));
-        return getprofit(0,prices,buy,2,dp);
+        vector<vector<vector<int>>> dp(n+1,vector<vector<int>>(2,vector<int>(transactions+1,0)));
+        
+         
+        for(int i=n-1 ; i>=0 ; --i){
+            for(int j=1 ; j<=transactions ; ++j){
+                dp[i][0][j] = max(dp[i+1][1][j] - prices[i],dp[i+1][0][j]);
+                dp[i][1][j] = max(dp[i+1][0][j-1] + prices[i],dp[i+1][1][j]);
+            }
+        }
+        
+        return dp[0][0][transactions];
     }
 };
