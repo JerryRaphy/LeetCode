@@ -3,24 +3,24 @@ public:
     long long matrixSumQueries(int n, vector<vector<int>>& queries) {
         
         long long res = 0;
-        vector<bool> rows(n,false);
-        vector<bool> cols(n,false);
+        int rows = n;
+        int cols = n;
         
+        vector<bool> r(n,false);
+        vector<bool> c(n,false);
         
-        int n_cols = n;
-        int n_rows = n;
-        
-        for(int i=queries.size()-1 ; i>=0 ; --i){
-            if(queries[i][0] == 0 && !rows[queries[i][1]]){
-                 rows[queries[i][1]] = true;
-                 n_rows -= 1;
-                 res += (n_cols * queries[i][2]);
+        int m = queries.size();
+        for(int i=m-1 ; i>=0 ; --i){
+            if(queries[i][0] == 0 && !r[queries[i][1]]){
+                res += (queries[i][2] * cols);
+                r[queries[i][1]] = true;
+                rows -= 1;
             }
-            else if(queries[i][0] == 1 && !cols[queries[i][1]]){
-                 cols[queries[i][1]] = true;
-                 n_cols -= 1;
-                 res += (n_rows * queries[i][2]);
-            } 
+            else if(queries[i][0] == 1 && !c[queries[i][1]]){
+                res += (queries[i][2] * rows);
+                c[queries[i][1]] = true;
+                cols -= 1;
+            }
         }
         
         return res;
