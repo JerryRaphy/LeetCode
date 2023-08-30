@@ -26,7 +26,8 @@ public:
             int stops = pq.top()[2];
             pq.pop();
             
-            if(stops == k || current_city == dst) continue;
+            if(current_city == dst) return cost_to_reach;
+            if(stops == k) continue;
             
             stops += 1;
             
@@ -43,10 +44,13 @@ public:
         
         }
         
+        /*
         int res = INT_MAX;
         for(int i=0 ; i<=k ; ++i) res = min(res,cost[dst][i]);
         
         return res == INT_MAX ? -1 : res;
+        */
+        return -1;
         
     }
 };
