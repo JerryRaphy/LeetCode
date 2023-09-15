@@ -1,7 +1,7 @@
-# Write your MySQL query statement below
-
-SELECT DISTINCT(a.num) as ConsecutiveNums
-FROM Logs a JOIN Logs b ON
-b.id = a.id + 1 AND a.num = b.num
-JOIN
-Logs c ON c.id = a.id + 2 AND a.num = c.num;
+select distinct num as consecutiveNums 
+from (select num,sum(c) over (order by id) as flag from 
+(select id, num, case when LAG(Num) OVER (order by id)- Num = 0 then 0 else 1 end as c
+from logs) a
+) b
+group by num,flag
+having count(*) >=3 
