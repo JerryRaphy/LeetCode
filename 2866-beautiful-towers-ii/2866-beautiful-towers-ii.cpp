@@ -23,7 +23,6 @@ public:
             }
         }
         
-        // for(int i=0 ; i<n ; ++i) cout<<right[i]<<" ";
         
         while(!st.empty()) st.pop();
         vector<int> pse(n,-1);
@@ -33,9 +32,7 @@ public:
             if(!st.empty()) pse[i] = st.top();
             st.push(i);
         }
-        
-        // for(int i=0 ; i<n ; ++i) cout<<pse[i]<<" ";
-        // cout<<endl;
+    
         
         vector<long long> left(n);
         for(int i=0 ; i<n ; ++i){
