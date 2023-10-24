@@ -1,39 +1,60 @@
 class Solution {
 public:
     
-void solve(int idx, int sum, vector<int> &A, int B, vector<int> &curr, vector<vector<int>> &res){
-    
-    if(sum == B) {
-        res.push_back(curr);
-    }
-    
-    if(idx == A.size() || sum > B) return;
-    
-    for(int i=idx ; i<A.size() ; ++i){
+        void solve(int idx, vector<int> curr, int sum, vector<int> &candidates, int target, int n, vector<vector<int>> &res){
         
-        if(i != idx && A[i] == A[i-1]) continue;
+        if(sum == target){
+            res.push_back(curr);
+            return;
+        }
         
-        sum += A[i];
-        curr.push_back(A[i]);
+        if(idx >= n) return;
+        if(sum > target) return;
         
-        solve(i+1,sum,A,B,curr,res);
         
+//         int end = idx + 1;
+//         while(end < n && candidates[end] == candidates[idx]) end += 1;
+            
+        
+//         // take one by one
+//         for(int i=idx ; i<end ; ++i){
+//             curr.push_back(candidates[i]);
+//             solve(end,curr,sum + candidates[i],candidates,target,n,res);
+//             curr.pop_back();
+//         }
+        
+//         // general skip
+//         solve(end,curr,sum,candidates,target,n,res);
+        
+         
+        // taking the first
+        curr.push_back(candidates[idx]);
+        solve(idx+1,curr,sum + candidates[idx],candidates,target,n,res);
         curr.pop_back();
-        sum -= A[i];            
+            
+        int i = idx;
+        while(i < n && candidates[i] == candidates[idx]){
+            i += 1;
+        }
+        idx = i-1;
+            
+        // not take
+        solve(idx+1,curr,sum,candidates,target,n,res);
+        
+        
+        return;
     }
     
-    return;
-}
     
-    vector<vector<int>> combinationSum2(vector<int>& A, int B) {
+    vector<vector<int>> combinationSum2(vector<int>& candidates, int target) {
         
         vector<vector<int>> res;
-        sort(A.begin(),A.end());
         vector<int> curr;
-
-        solve(0,0,A,B,curr,res);
-
-        sort(res.begin(),res.end());
+        int n = candidates.size();
+        
+        sort(candidates.begin(),candidates.end());
+        
+        solve(0,curr,0,candidates,target,n,res);
         return res;
     }
 };
