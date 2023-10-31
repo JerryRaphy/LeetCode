@@ -1,36 +1,32 @@
 class Solution {
 public:
     
-    /*
-    bool ispalin(string &substring){
-        int l = 0;
-        int r = substring.length() - 1;
+    
+    bool ispalin(string temp){
         
-        while(l < r){
-            if(substring[l] != substring[r]) return false;
-            l += 1;
-            r -= 1;
+        int l = 0;
+        int r = temp.length() - 1;
+        
+        while(l <= r){
+            if(temp[l++] != temp[r--]) return false;
         }
         
         return true;
     }
-    */
     
-   
-    void solve(int idx, vector<string> &curr, string &s, vector<vector<string>> &res, vector<vector<bool>> &dp){
-        if(idx == s.length()) {
+    void getpartitions(int idx, vector<string> curr, string s, vector<vector<string>> &res, int n){
+        
+        if(idx == n) {
             res.push_back(curr);
-            return;
         }
         
-        string substring;
+        string temp;
         
-        for(int i=idx ; i<s.length() ; ++i){
-            substring.push_back(s[i]);
-            if(s[idx] == s[i] && (i - idx <= 2 || dp[idx+1][i-1])){
-                dp[idx][i] = true; 
-                curr.push_back(substring);
-                solve(i+1,curr,s,res,dp);
+        for(int i=idx ; i<n ; ++i){
+            temp.push_back(s[i]);
+            if(ispalin(temp)){
+                curr.push_back(temp);
+                getpartitions(i+1,curr,s,res,n);
                 curr.pop_back();
             }
         }
@@ -43,8 +39,10 @@ public:
         int n = s.length();
         vector<vector<string>> res;
         vector<string> curr;
-        vector<vector<bool>> dp(n,vector<bool>(n,false));
-        solve(0,curr,s,res,dp);
+        
+        getpartitions(0,curr,s,res,n);
+        
         return res;
+        
     }
 };
