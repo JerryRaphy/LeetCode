@@ -1,26 +1,27 @@
 class Solution {
 public:
-    bool canJump(vector<int>& A) {
-         
-        int n = A.size();
-        if(n == 1) return true;
-
-        if(A[0] == 0) return false;
-
-        int st = 0;
-        int en = A[0];
+    bool canJump(vector<int>& nums) {
         
-        while(en < n-1){
-            int next_max = en;
-            while(st <= en){
-                next_max = max(next_max,A[st] + st);
-                st += 1;
+        int n = nums.size();
+        int pos = 0;
+        int max_jump = nums[0];
+        
+        while(max_jump < n - 1){
+            
+            int nextmax = max_jump;
+            
+            while(pos <= max_jump) {
+                nextmax = max(nextmax,pos + nums[pos]);
+                pos += 1;
             }
             
-            if(next_max == en) return false;
-            en = next_max;
+                  
+            if(nextmax == max_jump) return false;
+            
+            pos = max_jump;
+            max_jump = nextmax;
         }
-
+        
         return true;
     }
 };
